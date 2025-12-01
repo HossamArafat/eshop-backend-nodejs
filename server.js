@@ -27,7 +27,7 @@ if (process.env.NODE_ENV == "development")  app.use(morgan("dev"));
 // Security & utility middlewares
 app.use(cors()) // allow for all origins
 app.options(/.*/, cors());
-app.use(hppClean({whitelist: ['quantity', 'price', 'sold', 'ratingsAverage', 'ratingsQuantity']})) //Excluded list
+app.use(hppClean({whitelist: ['quantity', 'price', 'sold', 'ratingsAverage', 'ratingsQuantity', 'category']})) //Excluded list
 app.use(compression()) // gzip response body
 app.use(express.static(path.join(import.meta.dirname, 'uploads')))
 

@@ -15,11 +15,11 @@ import { sanitizeUser } from "../../utils/sanitizeData.js";
 // @access  Public
 const signup = expressAsyncHandler(async (req, res, next) => {
   // create user
-  const { body } = req;
+  const { name, email, password } = req.body;
   const user = await userModel.create({
-    name: body.name,
-    email: body.email,
-    password: body.password,
+    name: name,
+    email: email,
+    password: password,  // hashed password is done in pre-save middleware
   });
 
   // generate token
@@ -33,12 +33,12 @@ const signup = expressAsyncHandler(async (req, res, next) => {
 // @access  Public
 const login = expressAsyncHandler(async (req, res, next) => {
   // verify user credentials [email, password]
-  const { body } = req;
-  const user = await userModel.findOne({ email: body.email });
-  const password = user
-    ? await bcrypt.compare(body.password, user.password)
+  const { email, password } = req.body;
+  const user = await userModel.findOne({ email: email });
+  const hashedPassword = user
+    ? await bcrypt.compare(password, user.password)
     : false;
-  if (!user || !password) {
+  if (!user || !hashedPassword) {
     return next(new ApiError("Incorrect email or password.", 401));
   }
 
