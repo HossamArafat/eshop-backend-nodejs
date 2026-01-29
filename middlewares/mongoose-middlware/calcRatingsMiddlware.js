@@ -14,7 +14,7 @@ const calcAvgRatingsAndQty = (schema) => {
         $group: {
           _id: "$product",
           avgRatings: { $avg: "$rating" },
-          ratingsQty: { $sum: 1 }, // 1 as couter(+1) for for each document added or matched
+          ratingsQty: { $sum: 1 }, // 1 as counter(+1) for for each document added or matched
         },
       },
     ]);
